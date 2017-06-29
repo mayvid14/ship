@@ -1,0 +1,12 @@
+.cropArea {
+    /*background: #E4E4E4;*/
+    width:100%;
+    height:250px;
+}
+img-crop{
+    width:100%;
+    display: block;
+    height:100%;
+    margin-left: 50%;
+    margin-top: 15%;
+}

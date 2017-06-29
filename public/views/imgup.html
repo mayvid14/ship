@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/nm/angular-material/angular-material.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/imgup.css"> </head>
+
+<body ng-app="ship">
+    <div layout="row">
+        <md-toolbar layout-align="center center">
+            <p class="md-headline">SHIP</p>
+        </md-toolbar>
+    </div>
+    <div layout="row" layout-xs="column">
+        <div flex="50" flex-xs="100" layout-padding>
+        <md-card class="md-whiteframe-4dp">
+            <md-toolbar layout-align="center center">
+                <p class="md-headline">Upload a profile pic</p>
+            </md-toolbar>
+            <form action="" name="imag">
+                <md-input-container>
+                    <md-button class="md-fab" ngf-select ng-model="picFile" accept="image/*">
+                        <md-tooltip md-direction="right">Open a photo</md-tooltip>
+                        <md-icon>face</md-icon>
+                    </md-button>
+                </md-input-container>
+                <div ngf-drop ng-model="picFile" ngf-pattern="image/*" class="cropArea" ngf-accept="'image/*'" ngf-max-size="5MB">
+                    <img-crop image="picFile  | ngfDataUrl" result-image="croppedDataUrl" ng-init="croppedDataUrl=''" class="col s6 l6 m6 xl6 offset-s6 offset-m6 offset-l6 offset-xl6"> </img-crop>
+                </div>
+            </form>
+        </md-card>
+    </div>
+    <div flex="30" flex-offset="10" flex-xs="100" layout-padding>
+        <md-card> <img ng-src="{{croppedDataUrl}}" />
+            <md-button class="md-raised md-cornered md-primary">
+                <md-icon>file_upload</md-icon> <span> Upload</span> </md-button>
+        </md-card>
+    </div>
+    </div>
+    <script src="/nm/angular/angular.js"></script>
+    <script src="/nm/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="/nm/angular-aria/angular-aria.js"></script>
+    <script src="/nm/angular-animate/angular-animate.js"></script>
+    <script src="/nm/angular-messages/angular-messages.min.js"></script>
+    <script src="/nm/angular-material/angular-material.js"></script>
+    <script src="/nm/angular-password/angular-password.min.js"></script>
+    <script src="/nm/ng-file-upload/dist/ng-file-upload-all.min.js"></script>
+    <script src="/nm/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+    <script src="../configs/main.js"></script>
+</body>
+
+</html>

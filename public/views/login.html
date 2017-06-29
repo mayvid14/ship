@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/nm/angular-material/angular-material.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/login.css"> </head>
+
+<body ng-app="ship">
+    <div layout="row" layout-xs="column" layout-align-xs="space-around stretch" layout-align="center stretch">
+        <div flex="66" flex-xs="100" layout-align="center center">
+            <md-card>
+                <h1 class="md-display-4">Ship</h1></md-card>
+        </div>
+        <div flex="33" flex-xs="100">
+            <md-card class="md-whiteframe-4dp">
+                <md-tabs md-stretch-tabs="always" md-dynamic-height>
+                    <md-tab>
+                        <md-tab-label>Login</md-tab-label>
+                        <md-tab-body>
+                            <md-toolbar>
+                                <div layout="column" layout-padding layout-align="center center">
+                                    <div>
+                                        <md-icon class="logo">home</md-icon>
+                                    </div>
+                                    <div class="md-headline md-padding">Login</div>
+                                </div>
+                            </md-toolbar>
+                            <md-card-content>
+                                <div layout="column">
+                                    <form action="" name="logform">
+                                        <div flex>
+                                            <md-input-container class="md-block md-hue-1">
+                                                <label>Email</label>
+                                                <input type="email" ng-model="lemail" required name="email">
+                                                <div ng-messages="logform.email.$error" ng-show="logform.email.$dirty">
+                                                    <div ng-message="required">This is required!</div>
+                                                    <div ng-message="email">Enter a valid email id</div>
+                                                </div>
+                                            </md-input-container>
+                                        </div>
+                                        <div flex>
+                                            <md-input-container class="md-block md-hue-1">
+                                                <label>Password</label>
+                                                <input type="password" ng-model="lpasswd" required name="password" minlength="6">
+                                                <div ng-messages="logform.password.$error" ng-show="logform.password.$dirty">
+                                                    <div ng-message="required">This is required!</div>
+                                                    <div ng-message="minlength">Too short to be correct!</div>
+                                                </div>
+                                            </md-input-container>
+                                        </div>
+                                        <div flex layout="row" layout-align="center center">
+                                            <md-input-container class="md-block">
+                                                <md-button class="md-raised md-cornered md-primary" ng-disabled="logform.$invalid">Login</md-button>
+                                            </md-input-container>
+                                        </div>
+                                    </form>
+                                </div>
+                            </md-card-content>
+                        </md-tab-body>
+                    </md-tab>
+                    <md-tab>
+                        <md-tab-label>Sign Up</md-tab-label>
+                        <md-tab-body>
+                            <md-toolbar>
+                                <div layout="column" layout-padding layout-align="center center">
+                                    <div>
+                                        <md-icon class="logo">home</md-icon>
+                                    </div>
+                                    <div class="md-headline md-padding">Sign Up</div>
+                                </div>
+                            </md-toolbar>
+                            <md-card-content>
+                                <div layout="column">
+                                    <form action="" name="signform">
+                                        <div flex>
+                                            <md-input-container class="md-block md-hue-1">
+                                                <label>First Name</label>
+                                                <input type="text" ng-model="fn" required name="fn" minlength="2">
+                                                <div ng-messages="signform.fn.$error" ng-show="signform.fn.$dirty">
+                                                    <div ng-message="required">This is required!</div>
+                                                    <div ng-message="minlength">Too short to be believable 🙄!</div>
+                                                </div>
+                                            </md-input-container>
+                                        </div>
+                                        <div flex>
+                                            <md-input-container class="md-block md-hue-1">
+                                                <label>Last Name</label>
+                                                <input type="text" ng-model="ln" required name="ln" minlength="2">
+                                                <div ng-messages="signform.ln.$error" ng-show="signform.ln.$dirty">
+                                                    <div ng-message="required">This is required!</div>
+                                                    <div ng-message="minlength">Too short to be believable 🙄!</div>
+                                                </div>
+                                            </md-input-container>
+                                        </div>
+                                        <div flex>
+                                            <md-input-container class="md-block md-hue-1">
+                                                <label>Describe yourself</label>
+                                                <textarea name="bio" id="" cols="30" md-maxlength="140" ng-model="bio" required></textarea>
+                                                <div ng-messages="signform.bio.$error" ng-show="signform.bio.$dirty">
+                                                    <div ng-message="required">This is required!</div>
+                                                    <div ng-message="md-maxlength">Hold your horses 🐎!</div>
+                                                </div>
+                                            </md-input-container>
+                                        </div>
+                                        <div flex>
+                                            <md-input-container class="md-block md-hue-1">
+                                                <label>Email</label>
+                                                <input type="email" ng-model="semail" required name="email">
+                                                <div ng-messages="signform.email.$error" ng-show="signform.email.$dirty">
+                                                    <div ng-message="required">This is required!</div>
+                                                    <div ng-message="email">Enter a valid email id</div>
+                                                </div>
+                                            </md-input-container>
+                                        </div>
+                                        <div flex>
+                                            <md-input-container class="md-block md-hue-1">
+                                                <label>Password</label>
+                                                <input type="password" ng-model="spasswd" required name="password" minlength="6">
+                                                <div ng-messages="signform.password.$error" ng-show="signform.password.$dirty">
+                                                    <div ng-message="required">This is required!</div>
+                                                    <div ng-message="minlength">Too short to be correct!</div>
+                                                </div>
+                                            </md-input-container>
+                                        </div>
+                                        <div flex>
+                                            <md-input-container class="md-block md-hue-1">
+                                                <label>Confirm Password</label>
+                                                <input type="password" ng-model="scpasswd" required name="cpassword" match-password="password">
+                                                <div ng-messages="signform.cpassword.$error" ng-show="signform.cpassword.$dirty">
+                                                    <div ng-message="required">This is required!</div>
+                                                    <div ng-message="passwordMatch">Didn't match!</div>
+                                                </div>
+                                            </md-input-container>
+                                        </div>
+                                        <div flex layout="row" layout-align="center center">
+                                            <md-input-container class="md-block">
+                                                <md-button class="md-raised md-cornered md-primary" ng-disabled="signform.$invalid">Proceed</md-button>
+                                            </md-input-container>
+                                        </div>
+                                    </form>
+                                </div>
+                            </md-card-content>
+                        </md-tab-body>
+                    </md-tab>
+                </md-tabs>
+            </md-card>
+        </div>
+    </div>
+    <script src="/nm/angular/angular.js"></script>
+    <script src="/nm/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="/nm/angular-aria/angular-aria.js"></script>
+    <script src="/nm/angular-animate/angular-animate.js"></script>
+    <script src="/nm/angular-messages/angular-messages.min.js"></script>
+    <script src="/nm/angular-material/angular-material.js"></script>
+    <script src="/nm/angular-password/angular-password.min.js"></script>
+    <script src="/nm/ng-file-upload/dist/ng-file-upload-all.min.js"></script>
+    <script src="/nm/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+    <script src="../configs/main.js"></script>
+</body>
+
+</html>
