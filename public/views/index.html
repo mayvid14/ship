@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="../styles/profile.css"> </head>
 
-<body ng-app="ship" ng-controller="temp">
+<body ng-app="ship" ng-controller="indexctrl">
     <section layout="row" flex>
         <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" md-whiteframe="7">
             <md-toolbar layout-padding layout-align="center center">
@@ -16,18 +16,27 @@
             <md-content layout-padding>
                 <md-card>
                     <md-card-header>
-                        <md-card-avatar> <img class="md-user-avatar" src="../resources/Logomakr_8qcyGI.png" /> </md-card-avatar>
-                        <md-card-header-text> <span class="md-title">Firstname Lastname</span> <span class="md-subhead">bio</span> </md-card-header-text>
+                        <md-card-avatar> <img class="md-user-avatar" ng-src="{{user.dp}}" /> </md-card-avatar>
+                        <md-card-header-text> <span class="md-title">{{user.firstname | initcap}} {{user.lastname | initcap}}</span> <span class="md-subhead">{{user.bio}}</span> </md-card-header-text>
                     </md-card-header>
                     <md-card-content>
                         <md-list flex>
                             <md-subheader class="md-no-sticky">Menu</md-subheader>
-                            <md-list-item class="md-3-line" ng-repeat="item in todos" ng-click="null"> <img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}" />
-                                <div class="md-list-item-text" layout="column">
-                                    <h3>{{ item.who | initcap}}</h3>
-                                    <h4>{{ item.what }}</h4>
-                                    <p>{{ item.notes }}</p>
-                                </div>
+                            <md-list-item href="/">
+                                <md-icon>home</md-icon>
+                                <p>Home</p>
+                            </md-list-item>
+                            <md-list-item href="/profile">
+                                <md-icon>account_circle</md-icon>
+                                <p>Profile</p>
+                            </md-list-item>
+                            <md-list-item href="/post">
+                                <md-icon>settings</md-icon>
+                                <p>Settings</p>
+                            </md-list-item>
+                            <md-list-item ng-click="logout()">
+                                <md-icon>power_settings_new</md-icon>
+                                <p>Logout</p>
                             </md-list-item>
                         </md-list>
                     </md-card-content>
@@ -41,17 +50,16 @@
                         <md-icon class="md-primary">menu</md-icon>SHIP</md-button> <span>Feed</span> </div>
             </md-toolbar>
             <md-list flex>
-                <md-subheader class="md-no-sticky">3 line item (with hover)</md-subheader>
-                <md-list-item class="md-3-line" ng-repeat="item in todos" ng-click="null"> <img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}" />
+                <md-subheader class="md-no-sticky">Sorted by latest first</md-subheader>
+                <md-list-item class="md-3-line" ng-repeat="item in posts|orderBy:'-createdOn'" ng-click="openpost(item._id)"> <img ng-src="{{item.userId.dp}}" class="md-avatar" alt="{{item.who}}" />
                     <div class="md-list-item-text" layout="column">
-                        <h3>{{ item.who | initcap}}</h3>
-                        <h4>{{ item.what }}</h4>
-                        <p>{{ item.notes }}</p>
+                        <h3>{{ item.title }}</h3>
+                        <h4 class="md-caption">- {{ item.userId.firstname | initcap}} {{ item.userId.lastname | initcap}} <span>posted {{item.createdOn | getDur}}</span></h4>
+                        <p>{{ item.description }}</p>
                         <div class="md-secondary">
-                            <md-icon aria-label="Chat">favorite</md-icon><span>12</span></div>
+                            <md-icon aria-label="Chat">favorite</md-icon><span layout-padding>{{item.fav.length}}</span></div>
                         <div class="md-secondary">
-                            <md-icon aria-label="Chat">reply</md-icon>
-                        </div>
+                            <md-icon aria-label="Chat">sentiment_very_dissatisfied</md-icon><span layout-padding>{{item.sad.length}}</span></div>
                         <md-divider></md-divider>
                     </div>
                 </md-list-item>
@@ -60,7 +68,7 @@
     </section>
     <md-fab-speed-dial class="md-fab-bottom-right">
         <md-fab-actions>
-            <md-button class="md-fab" aria-label="Add" ng-click="showPrompt($event)" id="add">
+            <md-button class="md-fab" aria-label="Add" ng-click="showAdvanced($event)" id="add">
                 <md-tooltip md-direction="top"> Add a new post </md-tooltip>
                 <md-icon>add</md-icon>
             </md-button>
@@ -75,64 +83,13 @@
     <script src="/nm/angular-material/angular-material.js"></script>
     <script src="/nm/ng-file-upload/dist/ng-file-upload-all.min.js"></script>
     <script src="/nm/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+    <script src="/nm/angular-swx-session-storage/release/swx-session-storage.min.js"></script>
+    <script src="/nm/angular-route/angular-route.min.js"></script>
+    <script src="/nm/moment/moment.js"></script>
+    <script src="/nm/angular-moment/angular-moment.min.js"></script>
     <script src="../configs/main.js"></script>
-    <script>
-        app.controller('temp', function ($scope, $mdSidenav, $mdDialog) {
-            $scope.todos = [{
-                face: '../resources/rick.jpg'
-                , who: 'someone'
-                , what: 'something'
-                , notes: 'Lorem Ipsum'
-            }, {
-                face: '../resources/rick.jpg'
-                , who: 'someone'
-                , what: 'something'
-                , notes: 'Lorem Ipsum'
-            }, {
-                face: '../resources/rick.jpg'
-                , who: 'someone'
-                , what: 'something'
-                , notes: 'Lorem Ipsum'
-            }, {
-                face: '../resources/rick.jpg'
-                , who: 'someone'
-                , what: 'something'
-                , notes: 'Lorem Ipsum'
-            }, {
-                face: '../resources/rick.jpg'
-                , who: 'someone'
-                , what: 'something'
-                , notes: 'Lorem Ipsum'
-            }, {
-                face: '../resources/rick.jpg'
-                , who: 'someone'
-                , what: 'something'
-                , notes: 'Lorem Ipsum'
-            }, {
-                face: '../resources/rick.jpg'
-                , who: 'someone'
-                , what: 'something'
-                , notes: 'Lorem Ipsum'
-            }];
-
-            function buildToggler(navID) {
-                return function () {
-                    // Component lookup should always be available since we are not using `ng-if`
-                    $mdSidenav(navID).toggle();
-                };
-            }
-            $scope.toggle = buildToggler('left');
-            $scope.showPrompt = function (ev) {
-                // Appending dialog to document.body to cover sidenav in docs app
-                var confirm = $mdDialog.prompt().title('What would you name your dog?').textContent('Bowser is a common name.').placeholder('Dog name').ariaLabel('Dog name').initialValue('Buddy').targetEvent(ev).ok('Okay!').cancel('I\'m a cat person');
-                $mdDialog.show(confirm).then(function (result) {
-                    $scope.status = 'You decided to name your dog ' + result + '.';
-                }, function () {
-                    $scope.status = 'You didn\'t name your dog.';
-                });
-            };
-        });
-    </script>
+    <script src="../models/indexfac.js"></script>
+    <script src="../controllers/indexctrl.js"></script>
 </body>
 
 </html>

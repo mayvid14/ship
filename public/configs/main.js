@@ -1,4 +1,4 @@
-var app = angular.module('ship', ['ngMaterial', 'ngSanitize', 'ngMessages', 'ngPassword' /*, 'angularMoment', 'swxSessionStorage', */ , 'ngFileUpload', 'ngImgCrop']);
+var app = angular.module('ship', ['ngMaterial', 'ngSanitize', 'ngMessages', 'ngPassword', 'angularMoment', 'swxSessionStorage', 'ngFileUpload', 'ngImgCrop','ngRoute']);
 app.filter('initcap', function () {
     return function (name) {
         var arr = name.split(' ');
@@ -13,7 +13,7 @@ app.filter('initcap', function () {
 });
 app.filter('dob', function () {
     return function (num) {
-        var date = new Date(num);
+        var date = new Date(num*1);
         return date.toLocaleDateString();
     }
 });

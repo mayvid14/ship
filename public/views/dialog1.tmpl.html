@@ -1,0 +1,48 @@
+<md-dialog>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Write a new post...</h2> <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon>close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <form action="" name="postup">
+                <div flex>
+                    <md-input-container class="md-block md-hue-1">
+                        <label>Title</label>
+                        <input name="titl" type="text" required ng-model="postTitle">
+                        <div ng-messages="postup.titl.$error" ng-show="postup.titl.$dirty">
+                            <div ng-message="required">This is required!</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div flex layout="column">
+                    <md-input-container class="md-block md-hue-1" flex="50">
+                        <label>Description</label>
+                        <textarea name="desc" cols="30" ng-model="postDescription" required></textarea>
+                        <div ng-messages="postup.desc.$error" ng-show="postup.desc.$dirty">
+                            <div ng-message="required">This is required!</div>
+                        </div>
+                    </md-input-container>
+                    <div> <img ng-show="postup.file.$valid" ngf-thumbnail="postPic" flex="50" flex-offset="25"> </div>
+                </div>
+                <div flex>
+                    <md-input-container>
+                        <md-button class="md-fab" ngf-select ng-model="postPic" accept="image/*" name="file" ngf-max-size="10MB">
+                            <md-tooltip md-direction="right">Open a photo</md-tooltip>
+                            <md-icon>photo</md-icon>
+                        </md-button>
+                    </md-input-container>
+                </div>
+                <div flex>
+                    <md-input-container><span flex></span>
+                        <md-button class="md-raised md-cornered md-primary" ng-disabled="postup.$invalid" ng-click="postupload()"> Submit </md-button>
+                    </md-input-container>
+                </div>
+            </form>
+        </div>
+    </md-dialog-content>
+</md-dialog>
