@@ -63,9 +63,9 @@ app.get('/login', function (req, res) {
 /*app.get('/post', function (req, res) {
     res.sendFile(path.join(__dirname, 'public', 'views', 'post.html'));
 });*/
-app.get('/profile', function (req, res) {
+/*app.get('/profile', function (req, res) {
     res.sendFile(path.join(__dirname, 'public', 'views', 'profile.html'));
-});
+});*/
 app.get('/imgup', function (req, res) {
     res.sendFile(path.join(__dirname, 'public', 'views', 'imgup.html'));
 });
@@ -108,9 +108,17 @@ app.post('/newpost', requireLogin, upload.single('file'), jsonenc, function (req
 app.post('/getposts', requireLogin, function (req, res) {
     dbfunc.getPost(res);
 });
-app.get('/post', requireLogin, urlenc, function (req, res) {
-    /*dbfunc.postPage(req.query.id,res,path);*/
-    res.sendFile(path.join(__dirname, 'public', 'views', 'post.html'));
+app.post('/comment', requireLogin, jsonenc, function (req, res) {
+    dbfunc.comment(req.body.uid, req.body.com, req.body.pid, res);
+});
+app.post('/post', requireLogin, jsonenc, function (req, res) {
+    dbfunc.postPage(req.body.id, res);
+});
+app.post('/profile', requireLogin, jsonenc, function (req, res) {
+    dbfunc.profile(req.body.uid, res);
+});
+app.post('/profup', requireLogin, jsonenc, function (req, res) {
+    dbfunc.profup(req.body.fn, req.body.ln, req.body.bio, req.body.id, res);
 });
 app.listen(app.get('port'), function () {
     console.log('Connected to 8080');

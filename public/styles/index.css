@@ -1,3 +1,6 @@
 md-sidenav,section{
     height: 100%;
 }
+a{
+    text-decoration: none;
+}

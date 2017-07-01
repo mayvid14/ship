@@ -1,115 +1,88 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
-    <link rel="stylesheet" href="/nm/angular-material/angular-material.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="../styles/post.css"> </head>
-
-<body ng-app="ship" ng-controller="postctrl">
-    <section layout="row" flex>
-        <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" md-whiteframe="7">
-            <md-toolbar layout-padding layout-align="center center">
-                <h2 class="md-display-3">SHIP</h2> </md-toolbar>
-            <md-content layout-padding>
-                <md-card>
-                    <md-card-header>
-                        <md-card-avatar> <img class="md-user-avatar" ng-src="{{user.dp}}" /> </md-card-avatar>
-                        <md-card-header-text> <span class="md-title">{{user.firstname | initcap}} {{user.lastname | initcap}}</span> <span class="md-subhead">{{user.bio}}</span> </md-card-header-text>
-                    </md-card-header>
-                    <md-card-content>
-                        <md-list flex>
-                            <md-subheader class="md-no-sticky">Menu</md-subheader>
-                            <md-list-item href="/">
-                                <md-icon>home</md-icon>
-                                <p>Home</p>
-                            </md-list-item>
-                            <md-list-item href="/profile">
-                                <md-icon>account_circle</md-icon>
-                                <p>Profile</p>
-                            </md-list-item>
-                            <md-list-item href="/post">
-                                <md-icon>settings</md-icon>
-                                <p>Settings</p>
-                            </md-list-item>
-                            <md-list-item ng-click="logout()">
-                                <md-icon>power_settings_new</md-icon>
-                                <p>Logout</p>
-                            </md-list-item>
-                        </md-list>
-                    </md-card-content>
-                </md-card>
-            </md-content>
-        </md-sidenav>
-        <md-content flex layout-padding>
-            <md-toolbar layout="row" class="md-primary">
-                <div class="md-toolbar-tools">
-                    <md-button hide-gt-sm ng-click="toggle()">
-                        <md-icon class="md-primary">menu</md-icon>SHIP</md-button> <span>Post Id: xxx</span> </div>
-            </md-toolbar>
-            <div layout="row" layout-align="center center">
-                <md-card flex="80">
-                    <md-card-header>
-                        <md-card-avatar> <img class="md-user-avatar" src="../resources/avatar.png" /> </md-card-avatar>
-                        <md-card-header-text> <span class="md-title">Albert Einstein</span> <span class="md-subhead">Posted on 1st March 1930</span> </md-card-header-text>
-                    </md-card-header> <img src="../resources/work.jpg" class="md-card-image" alt="Washed Out">
-                    <md-card-title>
-                        <md-card-title-text> <span class="md-headline">I want a laptop too...</span></md-card-title-text>
-                    </md-card-title>
-                    <md-card-actions layout="row" layout-align="start center">
-                        <md-button class="md-icon-button" name="fav">
+<md-toolbar layout="row" class="md-primary">
+    <div class="md-toolbar-tools">
+        <md-button hide-gt-sm ng-click="toggle()">
+            <md-icon class="md-primary">menu</md-icon>SHIP</md-button> <span>Post Id: {{id}}</span> </div>
+</md-toolbar>
+<div layout="row" layout-align="center center">
+    <md-card flex="80">
+        <md-card-header>
+            <md-card-avatar> <img class="md-user-avatar" ng-src="{{post.userId.dp}}" /> </md-card-avatar>
+            <md-card-header-text> <a class="md-title md-primary" ng-href="/#!profile/{{post.userId._id}}">{{post.userId.firstname | initcap}} {{post.userId.lastname | initcap}}</a> <span class="md-subhead">Posted {{post.createdOn | getDur}}</span> </md-card-header-text>
+            <md-button class="md-secondary md-accent md-icon-button" ng-if="canEdit">
+                <md-tooltip md-direction="left">Edit post</md-tooltip>
+                <md-icon>edit</md-icon>
+            </md-button>
+            <md-button class="md-secondary md-accent md-icon-button" ng-if="canEdit">
+                <md-tooltip md-direction="left">Delete post</md-tooltip>
+                <md-icon>delete</md-icon>
+            </md-button>
+            <md-button class="md-secondary md-accent md-icon-button">
+                <md-tooltip md-direction="left">Report this post</md-tooltip>
+                <md-icon>report</md-icon>
+            </md-button>
+        </md-card-header> <img ng-src="{{post.image}}" class="md-card-image" alt="Washed Out" ng-if="post.image">
+        <md-card-title>
+            <md-card-title-text> <span class="md-headline">{{post.title}}</span></md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+            <p>{{post.description}}</p>
+            <md-card-actions layout="row" layout-align="start center">
+                <md-button class="md-icon-button" name="fav">
+                    <md-icon>favorite</md-icon>
+                </md-button>
+                <label for="fav">{{post.fav.length}}</label>
+                <md-button class="md-icon-button" name="sad">
+                    <md-icon>sentiment_very_dissatisfied</md-icon>
+                </md-button>
+                <label for="sad">{{post.sad.length}}</label>
+            </md-card-actions>
+            <md-list flex>
+                <md-subheader class="md-no-sticky">Comments</md-subheader>
+                <md-list-item class="md-3-line"> <img ng-src="{{user.dp}}" alt="" class="md-avatar" />
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <md-icon>chat</md-icon>
+                        <label>Reply to this post</label>
+                        <input ng-model="com">
+                        <md-button class="md-icon-button md-secondary" ng-click="comment()" ng-disabled="com.length<1">
+                            <md-icon class="md-primary">send</md-icon>
+                        </md-button>
+                    </md-input-container>
+                </md-list-item>
+                <md-divider md-inset></md-divider>
+                <md-list-item ng-repeat="item in comments | orderBy:'createdOn'" ng-class="getClass(item._id)"> <img ng-src="{{item.userId.dp}}" class="md-avatar" alt="{{item.who}}" />
+                    <div class="md-list-item-text" layout="column"> <a ng-href="/#!profile/{{item.userId._id}}" class=" md-primary">{{ item.userId.firstname | initcap}} {{ item.userId.lastname | initcap}}</a><span><small> {{item.createdOn | getDur}}</small></span>
+                        <div class="md-secondary">
+                            <md-button class="md-accent md-icon-button" ng-if="canEditC(item.userId._id)">
+                            <md-tooltip md-direction="left">Edit comment</md-tooltip>
+                            <md-icon>edit</md-icon>
+                        </md-button>
+                        <md-button class="md-accent md-icon-button" ng-if="canEditC(item.userId._id)">
+                            <md-tooltip md-direction="left">Delete comment</md-tooltip>
+                            <md-icon>delete</md-icon>
+                        </md-button>
+                        <md-button class="md-accent md-icon-button">
+                            <md-tooltip md-direction="left">Report this comment</md-tooltip>
+                            <md-icon>report</md-icon>
+                        </md-button>
+                        </div>
+                        <h3>{{ item.comment }}</h3> <span flex><md-button class="md-icon-button" name="fav">
                             <md-icon>favorite</md-icon>
                         </md-button>
-                        <label for="fav">12</label>
-                        <md-button class="md-icon-button" name="rep">
-                            <md-icon>reply</md-icon>
+                        <label for="fav">{{item.fav.length}}</label>
+                        <md-button class="md-icon-button" name="sad">
+                            <md-icon>sentiment_very_dissatisfied</md-icon>
                         </md-button>
-                    </md-card-actions>
-                    <md-card-content>
-                        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
-                        <md-list flex>
-                            <md-subheader class="md-no-sticky">Comments</md-subheader>
-                            <md-list-item class="md-3-line"> <img src="../resources/Logomakr_8qcyGI.png" alt="" class="md-avatar" />
-                                <md-input-container class="md-block" flex-gt-sm>
-                                    <md-icon>chat</md-icon>
-                                    <label>Reply to this post</label>
-                                    <input ng-model="user.firstName">
-                                    <md-icon class="md-secondary">send</md-icon>
-                                </md-input-container>
-                            </md-list-item>
-                            <md-list-item class="md-3-line" ng-repeat="item in todos"> <img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}" />
-                                <div class="md-list-item-text" layout="column">
-                                    <h3>{{ item.who | initcap}} <span><small> on 1st March 1930</small></span></h3>
-                                    <p>{{ item.notes }}</p>
-                                    <div class="md-primary">
-                                        <md-icon aria-label="Chat">favorite</md-icon><span>12</span> </div>
-                                </div>
-                                <md-divider md-inset></md-divider>
-                            </md-list-item>
-                        </md-list>
-                    </md-card-content>
-                </md-card>
-            </div>
-        </md-content>
-    </section>
-    <script src="/nm/angular/angular.js"></script>
-    <script src="/nm/angular-sanitize/angular-sanitize.min.js"></script>
-    <script src="/nm/angular-aria/angular-aria.js"></script>
-    <script src="/nm/angular-animate/angular-animate.js"></script>
-    <script src="/nm/angular-messages/angular-messages.min.js"></script>
-    <script src="/nm/angular-material/angular-material.js"></script>
-    <script src="/nm/angular-password/angular-password.min.js"></script>
-    <script src="/nm/ng-file-upload/dist/ng-file-upload-all.min.js"></script>
-    <script src="/nm/ng-img-crop/compile/minified/ng-img-crop.js"></script>
-    <script src="/nm/angular-swx-session-storage/release/swx-session-storage.min.js"></script>
-    <script src="/nm/angular-route/angular-route.min.js"></script>
-    <script src="/nm/moment/moment.js"></script>
-    <script src="/nm/angular-moment/angular-moment.min.js"></script>
-    <script src="../configs/main.js"></script>
-    <script src="../models/postfac.js"></script>
-    <script src="../controllers/postctrl.js"></script>    
-</body>
-
-</html>
+                        <label for="sad">{{item.sad.length}}</label></span> </div>
+                    <md-divider md-inset></md-divider>
+                </md-list-item>
+            </md-list>
+        </md-card-content>
+    </md-card>
+</div>
+<style>
+    .highlight {
+        -webkit-box-shadow: inset 0px 0px 20px 5px rgba(233, 30, 99, 0.37);
+        -moz-box-shadow: inset 0px 0px 20px 5px rgba(233, 30, 99, 0.37);
+        box-shadow: inset 0px 0px 20px 5px rgba(233, 30, 99, 0.37);
+    }
+</style>

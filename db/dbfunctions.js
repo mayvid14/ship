@@ -69,13 +69,44 @@ module.exports = {
             throw err;
         });
     }
-    , postPage: function (id, res,path) {
+    , postPage: function (id, res) {
         var a = ops.postPage(id);
         var b = a.then(function (pdata) {
             return ops.commentsOfPost(id);
         });
         return Promise.join(a, b, function (pdata, cdata) {
-            
+            res.send({
+                pdata: pdata
+                , cdata: cdata
+            });
+        });
+    }
+    , comment: function (uid, com, pid, res) {
+        ops.addComment(uid, com, pid).then(function (data) {
+            return ops.commentsOfPost(pid);
+        }).then(function (newdata) {
+            res.send(newdata);
+        });
+    }
+    , profile: function (uid, res) {
+        var a = ops.getUserById(uid);
+        var b = a.then(function (udata) {
+            return ops.getPostsByUserId(uid);
+        });
+        var c = b.then(function (pdata) {
+            return ops.getCommentsByUserId(uid);
+        });
+        return Promise.join(a, b, c, function (udata, pdata, cdata) {
+            res.send({
+                udata: udata
+                , pdata: pdata
+                , cdata: cdata
+            });
+        });
+    }
+    , profup: function (fn, ln, bio, id, res) {
+        ops.updateProfile(fn, ln, bio, id).then(function (data) {
+            res.send(data);
         });
     }
 };

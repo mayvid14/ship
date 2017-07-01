@@ -46,4 +46,42 @@ module.exports = {
             postId: id
         }).populate('userId', 'dp firstname lastname _id').exec();
     }
+    , addComment: function (uid, com, pid) {
+        var comment = new comments({
+            comment: com
+            , postId: pid
+            , userId: uid
+            , fav: []
+            , sad: []
+        });
+        return comment.save();
+    }
+    , getUserById: function (uid) {
+        return users.findOne({
+            _id: uid
+        }).exec();
+    }
+    , getPostsByUserId: function (uid) {
+        return posts.find({
+            userId: uid
+        }).populate('userId', 'dp firstname lastname _id').exec();
+    }
+    , getCommentsByUserId: function (uid) {
+        return comments.find({
+            userId: uid
+        }).populate('userId', 'dp firstname lastname _id').exec();
+    }
+    , updateProfile: function (fn, ln, bio, id) {
+        return users.findOneAndUpdate({
+            _id: id
+        }, {
+            $set: {
+                firstname: fn
+                , lastname: ln
+                , bio: bio
+            }
+        }, {
+            new: true
+        }).exec();
+    }
 };

@@ -1,6 +1,17 @@
 app.config(function($routeProvider){
     $routeProvider.when('/',{
-        templateUrl:'../views/feed',
+        templateUrl:'../views/feed.html',
         controller:'feedctrl'
-    })
+    }).when('/profile/:id',{
+        templateUrl:'../views/profile.html',
+        controller:'profilectrl'
+    }).when('/post/:pid',{
+        templateUrl:'../views/post.html',
+        controller:'postctrl'
+    }).when('/post/:pid/:cid',{
+        templateUrl:'../views/post.html',
+        controller:'postctrl'
+    }).otherwise({
+        redirectTo:'/'
+    });
 });

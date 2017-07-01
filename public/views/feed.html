@@ -1,0 +1,28 @@
+<md-toolbar layout="row" class="md-primary">
+    <div class="md-toolbar-tools">
+        <md-button hide-gt-sm ng-click="toggle()">
+            <md-icon class="md-primary">menu</md-icon>SHIP</md-button> <span>Feed</span> </div>
+</md-toolbar>
+<md-list flex>
+    <md-subheader class="md-no-sticky">Sorted by latest first</md-subheader>
+    <md-list-item class="md-3-line" ng-repeat="item in posts|orderBy:'-createdOn'" ng-href="/#!post/{{item._id}}"> <img ng-src="{{item.userId.dp}}" class="md-avatar" alt="{{item.who}}" />
+        <div class="md-list-item-text" layout="column">
+            <h3>{{ item.title }}</h3>
+            <h4 class="md-caption">- {{ item.userId.firstname | initcap}} {{ item.userId.lastname | initcap}} <span>posted {{item.createdOn | getDur}}</span></h4>
+            <p>{{ item.description }}</p>
+            <div class="md-secondary">
+                <md-icon aria-label="Chat" class="md-primary">favorite</md-icon><span layout-padding>{{item.fav.length}}</span></div>
+            <div class="md-secondary">
+                <md-icon aria-label="Chat" class="md-accent">sentiment_very_dissatisfied</md-icon><span layout-padding>{{item.sad.length}}</span></div>
+            <md-divider></md-divider>
+        </div>
+    </md-list-item>
+</md-list>
+<md-fab-speed-dial class="md-fab-bottom-right">
+    <md-fab-actions>
+        <md-button class="md-fab" aria-label="Add" ng-click="showAdvanced($event)" id="add">
+            <md-tooltip md-direction="top"> Add a new post </md-tooltip>
+            <md-icon>add</md-icon>
+        </md-button>
+    </md-fab-actions>
+</md-fab-speed-dial>

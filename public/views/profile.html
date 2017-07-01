@@ -1,133 +1,72 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
-    <link rel="stylesheet" href="/nm/angular-material/angular-material.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="../styles/profile.css"> </head>
-
-<body ng-app="ship" ng-controller="profilectrl">
-    <section layout="row" flex>
-        <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" md-whiteframe="7">
-            <md-toolbar layout-padding layout-align="center center">
-                <h2 class="md-display-3">SHIP</h2> </md-toolbar>
-            <md-content layout-padding>
-                <md-card>
-                    <md-card-header>
-                        <md-card-avatar> <img class="md-user-avatar" ng-src="{{user.dp}}" /> </md-card-avatar>
-                        <md-card-header-text> <span class="md-title">{{user.firstname | initcap}} {{user.lastname | initcap}}</span> <span class="md-subhead">{{user.bio}}</span> </md-card-header-text>
-                    </md-card-header>
-                    <md-card-content>
-                        <md-list flex>
-                            <md-subheader class="md-no-sticky">Menu</md-subheader>
-                            <md-list-item href="/">
-                                <md-icon>home</md-icon>
-                                <p>Home</p>
-                            </md-list-item>
-                            <md-list-item href="/profile">
-                                <md-icon>account_circle</md-icon>
-                                <p>Profile</p>
-                            </md-list-item>
-                            <md-list-item href="/post">
-                                <md-icon>settings</md-icon>
-                                <p>Settings</p>
-                            </md-list-item>
-                            <md-list-item ng-click="logout()">
-                                <md-icon>power_settings_new</md-icon>
-                                <p>Logout</p>
-                            </md-list-item>
-                        </md-list>
-                    </md-card-content>
-                </md-card>
-            </md-content>
-        </md-sidenav>
-        <md-content flex layout-padding>
-            <md-toolbar layout="row" class="md-primary">
-                <div class="md-toolbar-tools">
-                    <md-button hide-gt-sm ng-click="toggle()">
-                        <md-icon class="md-primary">menu</md-icon>SHIP</md-button> <span>Profile</span> </div>
-            </md-toolbar>
-            <div layout="row" layout-align="center center">
-                <md-card flex-gt-xs="40" flex="90"> <img src="../resources/Logomakr_8qcyGI.png" alt="">
-                    <md-card-title>
-                        <md-card-title-text layout-margin>
-                            <p class="md-headline">Firstname Lastname</p>
-                            <p class="md-subhead">A little bio</p> {{status}} </md-card-title-text>
-                        <div layout="row" layout-align="end center">
-                            <md-button class="md-fab" aria-label="Edit" ng-click="showPrompt($event)">
-                                <md-tooltip md-direction="left"> Edit your profile </md-tooltip>
-                                <md-icon>edit</md-icon>
-                            </md-button>
-                        </div>
-                    </md-card-title>
-                    <md-card-content>
-                        <p>
-                            <md-icon>star rate</md-icon> Some Stats</p>
-                        <p>
-                            <md-icon>favorite</md-icon> More Stats</p>
-                        <p>
-                            <md-icon>bug_report</md-icon> Something more</p>
-                    </md-card-content>
-                </md-card>
+<md-toolbar layout="row" class="md-primary">
+    <div class="md-toolbar-tools">
+        <md-button hide-gt-sm ng-click="toggle()">
+            <md-icon class="md-primary">menu</md-icon>SHIP</md-button> <span>Profile</span> </div>
+</md-toolbar>
+<div layout="row" layout-align="center center">
+    <md-card flex-gt-xs="40" flex="90"> <img ng-src="{{profile.dp}}" alt="">
+        <md-card-title>
+            <md-card-title-text layout-margin>
+                <p class="md-headline">{{profile.firstname | initcap}} {{profile.lastname | initcap}}</p>
+                <p class="md-subhead">{{profile.bio}}</p> </md-card-title-text>
+            <div layout="row" layout-align="end center">
+                <md-button class="md-fab" aria-label="Edit" ng-click="showPrompt($event)" ng-if="showEdit">
+                    <md-tooltip md-direction="left"> Edit your profile </md-tooltip>
+                    <md-icon>edit</md-icon>
+                </md-button>
             </div>
-            <div layout="row" layout-align="center center" layout-padding layout-xs="column" layout-align-xs="center stretch">
-                <div flex-gt-xs="50">
-                    <md-list>
-                        <md-subheader class="md-no-sticky">Posts</md-subheader>
-                        <md-list-item class="md-3-line" ng-repeat="item in todos" ng-click="null"> <img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}" />
-                            <div class="md-list-item-text" layout="column">
-                                <h3>{{ item.who | initcap}}</h3>
-                                <h4>{{ item.what }}</h4>
-                                <p>{{ item.notes }}</p>
-                                <div class="md-secondary">
-                                    <md-icon aria-label="Chat">favorite</md-icon><span>12</span></div>
-                                <div class="md-secondary">
-                                    <md-icon aria-label="Chat">reply</md-icon>
-                                </div>
-                                <md-divider></md-divider>
-                            </div>
-                        </md-list-item>
-                    </md-list>
+        </md-card-title>
+        <md-card-content>
+            <p>
+                <md-icon class="md-primary">favorite</md-icon> on posts: {{profile.postfav.length}}</p>
+            <p>
+                <md-icon class="md-accent">sentiment_very_dissatisfied</md-icon> on posts: {{profile.postsad.length}}</p>
+            <p>
+                <md-icon class="md-primary">favorite</md-icon> on comments: {{profile.comfav.length}}</p>
+            <p>
+                <md-icon class="md-accent">sentiment_very_dissatisfied</md-icon> on comments: {{profile.comsad.length}}</p>
+        </md-card-content>
+    </md-card>
+</div>
+<div layout="row" layout-align="center center" layout-padding layout-xs="column" layout-align-xs="center stretch">
+    <div flex-gt-xs="50">
+        <md-list>
+            <md-subheader class="md-no-sticky">Posts</md-subheader>
+            <md-list-item class="md-3-line" ng-repeat="item in posts" ng-href="/#!post/{{item._id}}"> <img ng-src="{{item.userId.dp}}" class="md-avatar" alt="{{item.who}}" />
+                <div class="md-list-item-text" layout="column">
+                    <h3>{{ item.title}}</h3>
+                    <h4 class="md-caption">{{ item.createdOn | getDur }}</h4>
+                    <p>{{ item.description }}</p>
+                    <div class="md-secondary">
+                        <md-icon aria-label="Chat" class="md-primary">favorite</md-icon><span layout-padding>{{item.fav.length}}</span></div>
+                    <div class="md-secondary">
+                        <md-icon aria-label="Chat" class="md-accent">sentiment_very_dissatisfied</md-icon><span layout-padding>{{item.sad.length}}</span></div>
+                    <md-divider></md-divider>
                 </div>
-                <div flex-gt-xs="50">
-                    <md-list>
-                        <md-subheader class="md-no-sticky">comments</md-subheader>
-                        <md-list-item class="md-3-line" ng-repeat="item in todos" ng-click="null"> <img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}" />
-                            <div class="md-list-item-text" layout="column">
-                                <h3>{{ item.who | initcap}}</h3>
-                                <h4>{{ item.what }}</h4>
-                                <p>{{ item.notes }}</p>
-                                <div class="md-secondary">
-                                    <md-icon aria-label="Chat">favorite</md-icon><span>12</span></div>
-                                <div class="md-secondary">
-                                    <md-icon aria-label="Chat">reply</md-icon>
-                                </div>
-                                <md-divider></md-divider>
-                            </div>
-                        </md-list-item>
-                    </md-list>
+            </md-list-item>
+            <md-list-item ng-if="posts.length===0">
+                <p>No posts yet</p>
+            </md-list-item>
+        </md-list>
+    </div>
+    <div flex-gt-xs="50">
+        <md-list>
+            <md-subheader class="md-no-sticky">Comments</md-subheader>
+            <md-list-item class="md-3-line" ng-repeat="item in comments" ng-href="/#!post/{{item.postId}}/{{item._id}}"> <img ng-src="{{item.userId.dp}}" class="md-avatar" alt="{{item.who}}" />
+                <div class="md-list-item-text" layout="column">
+                    <!--<h3>{{ item.title}}</h3>-->
+                    <h4 class="md-caption">{{ item.createdOn | getDur }}</h4>
+                    <p>{{ item.comment }}</p>
+                    <div class="md-secondary">
+                        <md-icon aria-label="Chat" class="md-primary">favorite</md-icon><span layout-padding>{{item.fav.length}}</span></div>
+                    <div class="md-secondary">
+                        <md-icon aria-label="Chat" class="md-accent">sentiment_very_dissatisfied</md-icon><span layout-padding>{{item.sad.length}}</span></div>
+                    <md-divider></md-divider>
                 </div>
-            </div>
-        </md-content>
-    </section>
-    <script src="/nm/angular/angular.js"></script>
-    <script src="/nm/angular-sanitize/angular-sanitize.min.js"></script>
-    <script src="/nm/angular-aria/angular-aria.js"></script>
-    <script src="/nm/angular-animate/angular-animate.js"></script>
-    <script src="/nm/angular-messages/angular-messages.min.js"></script>
-    <script src="/nm/angular-material/angular-material.js"></script>
-    <script src="/nm/angular-password/angular-password.min.js"></script>
-    <script src="/nm/ng-file-upload/dist/ng-file-upload-all.min.js"></script>
-    <script src="/nm/ng-img-crop/compile/minified/ng-img-crop.js"></script>
-    <script src="/nm/angular-swx-session-storage/release/swx-session-storage.min.js"></script>
-    <script src="/nm/angular-route/angular-route.min.js"></script>
-    <script src="/nm/moment/moment.js"></script>
-    <script src="/nm/angular-moment/angular-moment.min.js"></script>
-    <script src="../configs/main.js"></script>
-    <script src="../models/profilefac.js"></script>
-    <script src="../controllers/profilectrl.js"></script>
-</body>
-
-</html>
+            </md-list-item>
+            <md-list-item ng-if="comments.length===0">
+                <p>No comments yet</p>
+            </md-list-item>
+        </md-list>
+    </div>
+</div>

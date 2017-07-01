@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/nm/angular-material/angular-material.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="../styles/profile.css"> </head>
+    <link rel="stylesheet" href="../styles/index.css"> </head>
 
 <body ng-app="ship" ng-controller="indexctrl">
     <section layout="row" flex>
@@ -22,15 +22,15 @@
                     <md-card-content>
                         <md-list flex>
                             <md-subheader class="md-no-sticky">Menu</md-subheader>
-                            <md-list-item href="/">
+                            <md-list-item href="/#!">
                                 <md-icon>home</md-icon>
                                 <p>Home</p>
                             </md-list-item>
-                            <md-list-item href="/profile">
+                            <md-list-item href="/#!profile/{{user._id}}">
                                 <md-icon>account_circle</md-icon>
                                 <p>Profile</p>
                             </md-list-item>
-                            <md-list-item href="/post">
+                            <md-list-item href="/#!post">
                                 <md-icon>settings</md-icon>
                                 <p>Settings</p>
                             </md-list-item>
@@ -43,37 +43,11 @@
                 </md-card>
             </md-content>
         </md-sidenav>
-        <md-content flex layout-padding>
-            <md-toolbar layout="row" class="md-primary">
-                <div class="md-toolbar-tools">
-                    <md-button hide-gt-sm ng-click="toggle()">
-                        <md-icon class="md-primary">menu</md-icon>SHIP</md-button> <span>Feed</span> </div>
-            </md-toolbar>
-            <md-list flex>
-                <md-subheader class="md-no-sticky">Sorted by latest first</md-subheader>
-                <md-list-item class="md-3-line" ng-repeat="item in posts|orderBy:'-createdOn'" ng-click="openpost(item._id)"> <img ng-src="{{item.userId.dp}}" class="md-avatar" alt="{{item.who}}" />
-                    <div class="md-list-item-text" layout="column">
-                        <h3>{{ item.title }}</h3>
-                        <h4 class="md-caption">- {{ item.userId.firstname | initcap}} {{ item.userId.lastname | initcap}} <span>posted {{item.createdOn | getDur}}</span></h4>
-                        <p>{{ item.description }}</p>
-                        <div class="md-secondary">
-                            <md-icon aria-label="Chat">favorite</md-icon><span layout-padding>{{item.fav.length}}</span></div>
-                        <div class="md-secondary">
-                            <md-icon aria-label="Chat">sentiment_very_dissatisfied</md-icon><span layout-padding>{{item.sad.length}}</span></div>
-                        <md-divider></md-divider>
-                    </div>
-                </md-list-item>
-            </md-list>
+        <md-content flex>
+            <ng-view></ng-view>
         </md-content>
     </section>
-    <md-fab-speed-dial class="md-fab-bottom-right">
-        <md-fab-actions>
-            <md-button class="md-fab" aria-label="Add" ng-click="showAdvanced($event)" id="add">
-                <md-tooltip md-direction="top"> Add a new post </md-tooltip>
-                <md-icon>add</md-icon>
-            </md-button>
-        </md-fab-actions>
-    </md-fab-speed-dial>
+    
     <script src="/nm/angular/angular.js"></script>
     <script src="/nm/angular-sanitize/angular-sanitize.min.js"></script>
     <script src="/nm/angular-aria/angular-aria.js"></script>
@@ -87,9 +61,17 @@
     <script src="/nm/angular-route/angular-route.min.js"></script>
     <script src="/nm/moment/moment.js"></script>
     <script src="/nm/angular-moment/angular-moment.min.js"></script>
+    <script src="/nm/underscore/underscore-min.js"></script>
     <script src="../configs/main.js"></script>
+    <script src="../configs/route.js"></script>
     <script src="../models/indexfac.js"></script>
+    <script src="../models/feedfac.js"></script>
+    <script src="../models/postfac.js"></script>
+    <script src="../models/profilefac.js"></script>
     <script src="../controllers/indexctrl.js"></script>
+    <script src="../controllers/feedctrl.js"></script>
+    <script src="../controllers/postctrl.js"></script>
+    <script src="../controllers/profilectrl.js"></script>
 </body>
 
 </html>

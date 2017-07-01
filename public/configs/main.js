@@ -1,4 +1,4 @@
-var app = angular.module('ship', ['ngMaterial', 'ngSanitize', 'ngMessages', 'ngPassword', 'angularMoment', 'swxSessionStorage', 'ngFileUpload', 'ngImgCrop','ngRoute']);
+var app = angular.module('ship', ['ngMaterial', 'ngSanitize', 'ngMessages', 'ngPassword', 'angularMoment', 'swxSessionStorage', 'ngFileUpload', 'ngImgCrop', 'ngRoute']);
 app.filter('initcap', function () {
     return function (name) {
         var arr = name.split(' ');
@@ -13,7 +13,7 @@ app.filter('initcap', function () {
 });
 app.filter('dob', function () {
     return function (num) {
-        var date = new Date(num*1);
+        var date = new Date(num * 1);
         return date.toLocaleDateString();
     }
 });
@@ -24,5 +24,24 @@ app.filter('getDur', function () {
     }
 });
 app.config(function ($mdThemingProvider) {
-    $mdThemingProvider.theme('default').primaryPalette('pink');
+    $mdThemingProvider.definePalette('black', {
+        '50': '000000'
+        , '100': '000000'
+        , '200': '000000'
+        , '300': '000000'
+        , '400': '000000'
+        , '500': '000000'
+        , '600': '000000'
+        , '700': '000000'
+        , '800': '000000'
+        , '900': '000000'
+        , 'A100': '000000'
+        , 'A200': '000000'
+        , 'A400': '000000'
+        , 'A700': '000000'
+        , 'contrastDefaultColor': 'light'
+    });
+    $mdThemingProvider.theme('default').primaryPalette('pink').accentPalette('teal',{
+        'default':'700'
+    });
 });

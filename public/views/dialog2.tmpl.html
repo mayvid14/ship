@@ -1,0 +1,51 @@
+<md-dialog>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Edit your profile...</h2> <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon>close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <form action="" name="pedit">
+                <div flex>
+                    <md-input-container class="md-block md-hue-1">
+                        <label>Firstname</label>
+                        <input name="titl" type="text" required ng-model="firstname" minlength="2">
+                        <div ng-messages="pedit.firstname.$error" ng-show="pedit.firstname.$dirty">
+                            <div ng-message="required">This is required!</div>
+                            <div ng-message="minlength">Too small name!</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div flex>
+                    <md-input-container class="md-block md-hue-1">
+                        <label>Lastname</label>
+                        <input name="titl" type="text" required ng-model="lastname" minlength="2">
+                        <div ng-messages="pedit.user.lastname.$error" ng-show="pedit.lastname.$dirty">
+                            <div ng-message="required">This is required!</div>
+                            <div ng-message="minlength">Too small name!</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div flex>
+                    <md-input-container class="md-block md-hue-1">
+                        <label>Describe yourself</label>
+                        <textarea name="desc" cols="30" ng-model="bio" required md-maxlength="140"></textarea>
+                        <div ng-messages="postup.bio.$error" ng-show="postup.bio.$dirty">
+                            <div ng-message="required">This is required!</div>
+                            <div ng-message="md-maxlength">Description is too long!</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div flex>
+                    <md-input-container><span flex></span>
+                        <md-button class="md-raised md-cornered md-primary" ng-disabled="pedit.$invalid" ng-click="profup()"> Submit </md-button>
+                    </md-input-container>
+                </div>
+            </form>
+        </div>
+    </md-dialog-content>
+</md-dialog>
