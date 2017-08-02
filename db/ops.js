@@ -84,4 +84,92 @@ module.exports = {
             new: true
         }).exec();
     }
+    , upvotepost: function (uid, pid) {
+        return posts.findOneAndUpdate({
+            _id: pid
+        }, {
+            $addToSet: {
+                fav: uid
+            }
+        }, {
+            new: true
+        }).exec();
+    }
+    , adduvpostdata: function (puid, uid) {
+        return users.findOneAndUpdate({
+            _id: puid
+        }, {
+            $addToSet: {
+                postfav: uid
+            }
+        }, {
+            new: true
+        }).exec();
+    }
+    , downvotepost: function (uid, pid) {
+        return posts.findOneAndUpdate({
+            _id: pid
+        }, {
+            $addToSet: {
+                sad: uid
+            }
+        }, {
+            new: true
+        }).exec();
+    }
+    , adddownpostdata: function (puid, uid) {
+        return users.findOneAndUpdate({
+            _id: puid
+        }, {
+            $addToSet: {
+                postsad: uid
+            }
+        }, {
+            new: true
+        }).exec();
+    }
+    , upvotecomment: function (uid, cid) {
+        return comments.findOneAndUpdate({
+            _id: cid
+        }, {
+            $addToSet: {
+                fav: uid
+            }
+        }, {
+            new: true
+        }).exec();
+    }
+    , adduvcommentdata: function (cuid, uid) {
+        return users.findOneAndUpdate({
+            _id: cuid
+        }, {
+            $addToSet: {
+                comfav: uid
+            }
+        }, {
+            new: true
+        }).exec();
+    }
+    , downvotecomment: function (uid, cid) {
+        return comments.findOneAndUpdate({
+            _id: cid
+        }, {
+            $addToSet: {
+                sad: uid
+            }
+        }, {
+            new: true
+        }).exec();
+    }
+    , adddowncommentdata: function (cuid, uid) {
+        return users.findOneAndUpdate({
+            _id: cuid
+        }, {
+            $addToSet: {
+                comsad: uid
+            }
+        }, {
+            new: true
+        }).exec();
+    }
 };

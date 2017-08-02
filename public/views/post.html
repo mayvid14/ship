@@ -1,7 +1,7 @@
 <md-toolbar layout="row" class="md-primary">
     <div class="md-toolbar-tools">
         <md-button hide-gt-sm ng-click="toggle()">
-            <md-icon class="md-primary">menu</md-icon>SHIP</md-button> <span>Post Id: {{id}}</span> </div>
+            <md-icon class="md-primary">menu</md-icon>SHIP</md-button> <span>{{post.title}}</span> </div>
 </md-toolbar>
 <div layout="row" layout-align="center center">
     <md-card flex="80">
@@ -27,11 +27,11 @@
         <md-card-content>
             <p>{{post.description}}</p>
             <md-card-actions layout="row" layout-align="start center">
-                <md-button class="md-icon-button" name="fav">
+                <md-button ng-class="uvpyet()" name="fav" ng-click="uvpost()">
                     <md-icon>favorite</md-icon>
                 </md-button>
                 <label for="fav">{{post.fav.length}}</label>
-                <md-button class="md-icon-button" name="sad">
+                <md-button ng-class="dvpyet()" name="sad" ng-click="dvpost()">
                     <md-icon>sentiment_very_dissatisfied</md-icon>
                 </md-button>
                 <label for="sad">{{post.sad.length}}</label>
@@ -65,11 +65,11 @@
                             <md-icon>report</md-icon>
                         </md-button>
                         </div>
-                        <h3>{{ item.comment }}</h3> <span flex><md-button class="md-icon-button" name="fav">
+                        <h3>{{ item.comment }}</h3> <span flex><md-button ng-class="uvcyet(item.fav)" name="fav" ng-click="uvcomment(item._id)">
                             <md-icon>favorite</md-icon>
                         </md-button>
                         <label for="fav">{{item.fav.length}}</label>
-                        <md-button class="md-icon-button" name="sad">
+                        <md-button ng-class="dvcyet(item.sad)" ng-click="dvcomment(item._id)" name="sad">
                             <md-icon>sentiment_very_dissatisfied</md-icon>
                         </md-button>
                         <label for="sad">{{item.sad.length}}</label></span> </div>

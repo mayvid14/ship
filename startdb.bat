@@ -1,1 +1,0 @@
-mongod --dbpath "G:/Database" --smallfiles

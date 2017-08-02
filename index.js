@@ -120,6 +120,18 @@ app.post('/profile', requireLogin, jsonenc, function (req, res) {
 app.post('/profup', requireLogin, jsonenc, function (req, res) {
     dbfunc.profup(req.body.fn, req.body.ln, req.body.bio, req.body.id, res);
 });
+app.post('/uvpost', requireLogin, jsonenc, function (req, res) {
+    dbfunc.uvpost(req.body.uid, req.body.pid, res);
+});
+app.post('/dvpost', requireLogin, jsonenc, function (req, res) {
+    dbfunc.dvpost(req.body.uid, req.body.pid, res);
+});
+app.post('/uvcomment', requireLogin, jsonenc, function (req, res) {
+    dbfunc.uvcomment(req.body.uid, req.body.pid, req.body.cid, res);
+});
+app.post('/dvcomment', requireLogin, jsonenc, function (req, res) {
+    dbfunc.dvcomment(req.body.uid, req.body.pid, req.body.cid, res);
+});
 app.listen(app.get('port'), function () {
     console.log('Connected to 8080');
 });
