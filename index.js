@@ -132,6 +132,16 @@ app.post('/uvcomment', requireLogin, jsonenc, function (req, res) {
 app.post('/dvcomment', requireLogin, jsonenc, function (req, res) {
     dbfunc.dvcomment(req.body.uid, req.body.pid, req.body.cid, res);
 });
+app.post('/updatepost', requireLogin, upload.single('file'), jsonenc, function (req, res) {
+    var picurl = '';
+    if (typeof req.file === 'undefined') {
+        dbfunc.updatePostNP(req.body.pid, req.body.title, req.body.description, res);
+    }
+    else {
+        picurl = '../resources/' + req.file.filename;
+        dbfunc.updatePost(req.body.pid, req.body.title, req.body.description, picurl, res);
+    }
+});
 app.listen(app.get('port'), function () {
     console.log('Connected to 8080');
 });

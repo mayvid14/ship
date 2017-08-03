@@ -167,4 +167,22 @@ module.exports = {
             });
         });
     }
+    , updatePost: function (pid, title, desc, url, res) {
+        var p = ops.updatePost(pid, title, desc, url);
+        p.then(function (data) {
+            res.sendStatus(200);
+        }, function (err) {
+            console.log(err);
+            throw err;
+        });
+    }
+    , updatePostNP: function (pid, title, desc, res) {
+        var p = ops.updatePostNP(pid, title, desc);
+        p.then(function (data) {
+            res.sendStatus(200);
+        }, function (err) {
+            console.log(err);
+            throw err;
+        });
+    }
 };

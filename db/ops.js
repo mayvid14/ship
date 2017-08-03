@@ -172,4 +172,29 @@ module.exports = {
             new: true
         }).exec();
     }
+    , updatePost: function (pid, title, desc, url) {
+        return posts.findOneAndUpdate({
+            _id: pid
+        }, {
+            $set: {
+                title: title
+                , description: desc
+                , image: url
+            }
+        }, {
+            new: true
+        }).exec();
+    }
+    , updatePostNP: function (pid, title, desc) {
+        return posts.findOneAndUpdate({
+            _id: pid
+        }, {
+            $set: {
+                title: title
+                , description: desc
+            }
+        }, {
+            new: true
+        }).exec();
+    }
 };

@@ -55,7 +55,7 @@ app.controller('postctrl', ['$scope', '$sessionStorage', '$location', '$window',
     $scope.uvcomment = function (cid) {
         var userid = $scope.user._id;
         var postid = $scope.post._id;
-        postfac.uvcomment(userid,postid, cid).then(function (data) {
+        postfac.uvcomment(userid, postid, cid).then(function (data) {
             $scope.comments = data.data.cdata;
         }, function (err) {
             alert(err);
@@ -68,7 +68,7 @@ app.controller('postctrl', ['$scope', '$sessionStorage', '$location', '$window',
     $scope.dvcomment = function (cid) {
         var userid = $scope.user._id;
         var postid = $scope.post._id;
-        postfac.dvcomment(userid,postid, cid).then(function (data) {
+        postfac.dvcomment(userid, postid, cid).then(function (data) {
             $scope.comments = data.data.cdata;
         }, function (err) {
             alert(err);
@@ -77,5 +77,58 @@ app.controller('postctrl', ['$scope', '$sessionStorage', '$location', '$window',
     $scope.dvcyet = function (carr) {
         if (_.indexOf(carr, $scope.user._id) >= 0) return 'md-icon-button md-accent';
         else return 'md-icon-button';
+    }
+    $scope.editPost = function (ev) {
+        $sessionStorage.put('post', $scope.post);
+        $mdDialog.show({
+            controller: DialogController
+            , templateUrl: '../views/dialog3.tmpl.html'
+            , targetEvent: ev
+            , clickOutsideToClose: true
+            , fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+        }).then(function (ans) {
+            $sessionStorage.remove('post');
+            postfac.openpost($routeParams.pid).then(function (data) {
+                $scope.post = data.data.pdata;
+                $scope.comments = data.data.cdata;
+                $scope.canEdit = _.isEqual($scope.user._id, $scope.post.userId._id);
+            });
+        }, function () {
+            console.log('nothing');
+        });
+    }
+
+    function DialogController($scope, Upload, $sessionStorage, $mdDialog) {
+        $scope.hide = function (ans) {
+            $mdDialog.hide(ans);
+        };
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        }
+        $scope.postId = $sessionStorage.get('post')._id;
+        $scope.uppostTitle = $sessionStorage.get('post').title;
+        $scope.uppostDescription = $sessionStorage.get('post').description;
+        $scope.uppostPic = $sessionStorage.get('post').image;
+        $scope.removePic = function(){
+            $scope.uppostPic = '';
+        }
+        $scope.upuppost = function () {
+            Upload.upload({
+                url: '/updatepost'
+                , method: 'POST'
+                , data: {
+                    pid: $scope.postId
+                    , title: $scope.uppostTitle
+                    , description: $scope.uppostDescription
+                    , file: $scope.uppostPic
+                }
+            , }).then(function (response) {
+                $scope.hide('yolo');
+            }, function (response) {
+                console.log('Failed', 3000);
+            }, function (evt) {
+                console.log('Uploading', 100);
+            });
+        };
     }
 }]);

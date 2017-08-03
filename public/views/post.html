@@ -8,7 +8,7 @@
         <md-card-header>
             <md-card-avatar> <img class="md-user-avatar" ng-src="{{post.userId.dp}}" /> </md-card-avatar>
             <md-card-header-text> <a class="md-title md-primary" ng-href="/#!profile/{{post.userId._id}}">{{post.userId.firstname | initcap}} {{post.userId.lastname | initcap}}</a> <span class="md-subhead">Posted {{post.createdOn | getDur}}</span> </md-card-header-text>
-            <md-button class="md-secondary md-accent md-icon-button" ng-if="canEdit">
+            <md-button class="md-secondary md-accent md-icon-button" ng-if="canEdit" ng-click="editPost($event)">
                 <md-tooltip md-direction="left">Edit post</md-tooltip>
                 <md-icon>edit</md-icon>
             </md-button>
