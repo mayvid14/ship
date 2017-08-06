@@ -95,12 +95,15 @@ module.exports = {
             new: true
         }).exec();
     }
-    , adduvpostdata: function (puid, uid) {
+    , adduvpostdata: function (puid, pid, uid) {
         return users.findOneAndUpdate({
             _id: puid
         }, {
             $addToSet: {
-                postfav: uid
+                postfav: {
+                    pid: pid
+                    , uid: uid
+                }
             }
         }, {
             new: true
@@ -117,12 +120,15 @@ module.exports = {
             new: true
         }).exec();
     }
-    , adddownpostdata: function (puid, uid) {
+    , adddownpostdata: function (puid, pid, uid) {
         return users.findOneAndUpdate({
             _id: puid
         }, {
             $addToSet: {
-                postsad: uid
+                postsad: {
+                    pid: pid
+                    , uid: uid
+                }
             }
         }, {
             new: true
@@ -139,12 +145,15 @@ module.exports = {
             new: true
         }).exec();
     }
-    , adduvcommentdata: function (cuid, uid) {
+    , adduvcommentdata: function (cuid, cid, uid) {
         return users.findOneAndUpdate({
             _id: cuid
         }, {
             $addToSet: {
-                comfav: uid
+                comfav: {
+                    cid: cid
+                    , uid: uid
+                }
             }
         }, {
             new: true
@@ -161,12 +170,15 @@ module.exports = {
             new: true
         }).exec();
     }
-    , adddowncommentdata: function (cuid, uid) {
+    , adddowncommentdata: function (cuid, cid, uid) {
         return users.findOneAndUpdate({
             _id: cuid
         }, {
             $addToSet: {
-                comsad: uid
+                comsad: {
+                    cid: cid
+                    , uid: uid
+                }
             }
         }, {
             new: true
@@ -192,6 +204,17 @@ module.exports = {
             $set: {
                 title: title
                 , description: desc
+            }
+        }, {
+            new: true
+        }).exec();
+    }
+    , updateComment: function (cid, com) {
+        return comments.findOneAndUpdate({
+            _id: cid
+        }, {
+            $set: {
+                comment: com
             }
         }, {
             new: true

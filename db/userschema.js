@@ -26,22 +26,10 @@ var userSchema = new object.mongoose.Schema({
         type: Boolean
         , default: false
     }
-    , postfav: [{
-        type: mongoose.Schema.Types.ObjectId
-        , ref: 'posts'
-    }]
-    , postsad: [{
-        type: mongoose.Schema.Types.ObjectId
-        , ref: 'posts'
-    }]
-    , comfav: [{
-        type: mongoose.Schema.Types.ObjectId
-        , ref: 'comments'
-    }]
-    , comsad: [{
-        type: mongoose.Schema.Types.ObjectId
-        , ref: 'comments'
-    }]
+    , postfav: []
+    , postsad: []
+    , comfav: []
+    , comsad: []
     , dp: {
         type: String
     }

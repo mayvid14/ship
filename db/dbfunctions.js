@@ -84,6 +84,8 @@ module.exports = {
     , comment: function (uid, com, pid, res) {
         ops.addComment(uid, com, pid).then(function (data) {
             return ops.commentsOfPost(pid);
+        },function(err){
+            console.log(err);
         }).then(function (newdata) {
             res.send(newdata);
         });
@@ -112,7 +114,7 @@ module.exports = {
     , uvpost: function (uid, pid, res) {
         var a = ops.upvotepost(uid, pid);
         var c = a.then(function (pdata) {
-            return ops.adduvpostdata(pdata.userId, uid);
+            return ops.adduvpostdata(pdata.userId,pid, uid);
         });
         var b = c.then(function (ndata) {
             return ops.commentsOfPost(pid);
@@ -127,7 +129,7 @@ module.exports = {
     , dvpost: function (uid, pid, res) {
         var a = ops.downvotepost(uid, pid);
         var c = a.then(function (pdata) {
-            return ops.adddownpostdata(pdata.userId, uid);
+            return ops.adddownpostdata(pdata.userId,pid, uid);
         });
         var b = c.then(function (ndata) {
             return ops.commentsOfPost(pid);
@@ -142,7 +144,7 @@ module.exports = {
     , uvcomment: function (uid, pid, cid, res) {
         var a = ops.upvotecomment(uid, cid);
         var c = a.then(function (ctdata) {
-            return ops.adduvcommentdata(ctdata.userId, uid);
+            return ops.adduvcommentdata(ctdata.userId,cid, uid);
         });
         var b = c.then(function (ndata) {
             return ops.commentsOfPost(pid);
@@ -156,7 +158,7 @@ module.exports = {
     , dvcomment: function (uid, pid, cid, res) {
         var a = ops.downvotecomment(uid, cid);
         var c = a.then(function (ctdata) {
-            return ops.adddowncommentdata(ctdata.userId, uid);
+            return ops.adddowncommentdata(ctdata.userId,cid, uid);
         });
         var b = c.then(function (ndata) {
             return ops.commentsOfPost(pid);
@@ -183,6 +185,15 @@ module.exports = {
         }, function (err) {
             console.log(err);
             throw err;
+        });
+    }
+    , upComment: function (cid, com, res) {
+        ops.updateComment(cid, com).then(function (comdata) {
+            return ops.commentsOfPost(comdata.postId);
+        }).then(function (cdata) {
+            res.send({
+                cdata: cdata
+            });
         });
     }
 };

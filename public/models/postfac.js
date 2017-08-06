@@ -74,5 +74,17 @@ app.factory('postfac', function ($q, $http) {
             });
             return q.promise;
         }
+        , upcom: function (cid, comment) {
+            var q = $q.defer();
+            $http.post('/updatecomment', {
+                cid: cid
+                , comment: comment
+            }).then(function (data) {
+                q.resolve(data);
+            }, function (err) {
+                q.reject(err);
+            });
+            return q.promise;
+        }
     };
 });

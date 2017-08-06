@@ -52,7 +52,7 @@
                 <md-list-item ng-repeat="item in comments | orderBy:'createdOn'" ng-class="getClass(item._id)"> <img ng-src="{{item.userId.dp}}" class="md-avatar" alt="{{item.who}}" />
                     <div class="md-list-item-text" layout="column"> <a ng-href="/#!profile/{{item.userId._id}}" class=" md-primary">{{ item.userId.firstname | initcap}} {{ item.userId.lastname | initcap}}</a><span><small> {{item.createdOn | getDur}}</small></span>
                         <div class="md-secondary">
-                            <md-button class="md-accent md-icon-button" ng-if="canEditC(item.userId._id)">
+                            <md-button class="md-accent md-icon-button" ng-if="canEditC(item.userId._id)" ng-click="updateComment($event,item._id,item.comment)">
                             <md-tooltip md-direction="left">Edit comment</md-tooltip>
                             <md-icon>edit</md-icon>
                         </md-button>

@@ -142,6 +142,9 @@ app.post('/updatepost', requireLogin, upload.single('file'), jsonenc, function (
         dbfunc.updatePost(req.body.pid, req.body.title, req.body.description, picurl, res);
     }
 });
+app.post('/updatecomment', requireLogin, jsonenc, function (req, res) {
+    dbfunc.upComment(req.body.cid, req.body.comment, res);
+});
 app.listen(app.get('port'), function () {
     console.log('Connected to 8080');
 });

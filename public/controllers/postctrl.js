@@ -1,7 +1,6 @@
 app.controller('postctrl', ['$scope', '$sessionStorage', '$location', '$window', '$mdSidenav', '$mdDialog', '$routeParams', 'postfac', function ($scope, $sessionStorage, $location, $window, $mdSidenav, $mdDialog, $routeParams, postfac) {
     if (!$sessionStorage.get('user')) $window.location.href = '/login';
     else $scope.user = $sessionStorage.get('user');
-    $scope.id = '';
     $scope.post = {};
     postfac.openpost($routeParams.pid).then(function (data) {
         $scope.post = data.data.pdata;
@@ -13,7 +12,7 @@ app.controller('postctrl', ['$scope', '$sessionStorage', '$location', '$window',
     };
     $scope.com = '';
     $scope.comment = function () {
-        postfac.comment($scope.user._id, $scope.com, $scope.id).then(function (data) {
+        postfac.comment($scope.user._id, $scope.com, $routeParams.pid).then(function (data) {
             $scope.comments = data.data;
             $scope.com = '';
         }, function (err) {
@@ -97,6 +96,20 @@ app.controller('postctrl', ['$scope', '$sessionStorage', '$location', '$window',
             console.log('nothing');
         });
     }
+    $scope.updateComment = function (ev, cid, comment) {
+        var confirm = $mdDialog.prompt().title('Edit your comment...').placeholder('What do you think?').ariaLabel('Comment').initialValue(comment).targetEvent(ev).ok('Submit').cancel('Cancel');
+        $mdDialog.show(confirm).then(function (result) {
+            if (result.trim().length > 0) {
+                postfac.upcom(cid, result).then(function (data) {
+                    $scope.comments = data.data.cdata;
+                }, function (err) {
+                    alert(err);
+                });
+            }
+        }, function () {
+            console.log('ok');
+        });
+    };
 
     function DialogController($scope, Upload, $sessionStorage, $mdDialog) {
         $scope.hide = function (ans) {
@@ -109,9 +122,6 @@ app.controller('postctrl', ['$scope', '$sessionStorage', '$location', '$window',
         $scope.uppostTitle = $sessionStorage.get('post').title;
         $scope.uppostDescription = $sessionStorage.get('post').description;
         $scope.uppostPic = $sessionStorage.get('post').image;
-        $scope.removePic = function(){
-            $scope.uppostPic = '';
-        }
         $scope.upuppost = function () {
             Upload.upload({
                 url: '/updatepost'
